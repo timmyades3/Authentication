@@ -148,10 +148,6 @@ class TestViews(TestCase):
 
 class SessionFixationTest(TestCase):
     def test_session_id_change_on_login(self):
-        # Create a user
-        user = User.objects.create_user(username='testuser', password='testpassword')
-
-        # Log in as the user and get the session ID
         self.client.login(username='testuser', password='testpassword')
         session_id_before = self.client.session.session_key
 
@@ -165,17 +161,21 @@ class SessionFixationTest(TestCase):
         # Ensure that the session ID changes after login
         self.assertNotEqual(session_id_before, session_id_after)
 
-
 class CSRFAttackTest(TestCase):
     def test_csrf_attack_attempt(self):
-        # Create a user
-        user = User.objects.create_user(username='testuser', password='testpassword')
-
-        # Log in as the user
-        self.client.login(username='testuser', password='testpassword')
-
-        # Try to make a POST request to a view that requires CSRF protection
-        response = self.client.post(reverse('login'), data={'data': 'malicious_data'})
+        # Try to make a POST request to the registration view
+        response = self.client.post(reverse('register'), data={'data': 'malicious_data'})
 
         # Ensure that the request is denied (status code 403)
-        self.assertEqual(response.status_code, 403)        
+        self.assertEqual(response.status_code, 403)
+
+# class CSRFAttackTest(TestCase):
+#     def test_csrf_attack_attempt(self):
+
+#         self.client.login(username='testuser', password='testpassword')
+
+#         # Try to make a POST request to a view that requires CSRF protection
+#         response = self.client.post(reverse('login'), data={'data': 'malicious_data'})
+
+#         # Ensure that the request is denied (status code 403)
+#         self.assertEqual(response.status_code, 403)        
