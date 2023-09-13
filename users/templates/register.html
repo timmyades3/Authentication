@@ -1,0 +1,50 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="{%static 'registerandlogin.css'%}">
+</head>
+<body>
+  <h2 class="reg">Register</h2>
+  <div class="error">
+   <h5>{{ form.errors}}</h5>
+  </div>
+  <div class="main">
+    <form action="" method="post">
+      {% csrf_token %}
+      
+      <div>
+        <label for="username">Username</label>
+        <br>
+        <input type="text" placeholder="John doe" name="username" id="username" requrired>
+      </div>
+      <br>
+      <div>
+        <label for="useremail">Email</label>
+        <br>
+        <input type="email" placeholder="Johndoe@gmail.com" name="email" id="useremail" required>
+      </div>
+      <br>
+      <div>
+        <label for="userpassword">Password</label>
+        <br>
+        <input type="password" placeholder="Password" name="password1" id="userpassword"  required>
+      </div>
+      <br>
+      <div>
+        <label for="userpassword2">Confirm Password</label>
+        <br>
+        <input type="password" placeholder="Confirm Password" name="password2" id="userpassword2" required>
+      </div>
+      <br>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+  <p> Allready have an account? <a href="{% url 'login'%}">Login</a></p>
+</body>
+</html>
+{% endblock %}

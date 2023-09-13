@@ -1,0 +1,42 @@
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="{%static 'registerandlogin.css'%}">
+</head>
+<body>
+  {% if messages %}
+  {% for message in messages%}
+  <h1>{{message}}</h1>
+  {% endfor %}
+  {% endif %}
+  <h2 class="log">Login</h2>
+  <div class="main">
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="error">
+        <h4>{{ error_message }}</h4>
+      </div>
+      <div>
+        <label for="username">username</label>
+        <br>
+        <input type="text" placeholder="John doe" name="username" id="username" required>
+      </div>
+      <br>
+      <div>
+        <label for="userpassword">password</label>
+        <br>
+        <input type="password" placeholder="Password" name="password" id="userpassword" required>
+      </div>
+      <br>
+      <button class="l_button" type="submit">Login</button>
+    </form>
+  </div>
+  <p>Dont have an account? <a href="{% url 'register'%}">Register</a></p>
+</body>
+</html>
+{% endblock %}
