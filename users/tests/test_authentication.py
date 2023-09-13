@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
@@ -161,21 +161,20 @@ class SessionFixationTest(TestCase):
         # Ensure that the session ID changes after login
         self.assertNotEqual(session_id_before, session_id_after)
 
+
 class CSRFAttackTest(TestCase):
     def test_csrf_attack_attempt(self):
-        # Try to make a POST request to the registration view
-        response = self.client.post(reverse('register'), data={'data': 'malicious_data'})
+        # Create a user
+        User.objects.create_user(username='testuser', password='testpassword')
 
+        self.client = Client(enforce_csrf_checks=True)
+        # Log in as the user
+
+        # Try to make a POST request to a view without CRSF
+        data = {
+            'username': 'testuser',
+            'password': 'testpassword'
+        }
+        response = self.client.post(reverse('login'), data=data)
         # Ensure that the request is denied (status code 403)
-        self.assertEqual(response.status_code, 403)
-
-# class CSRFAttackTest(TestCase):
-#     def test_csrf_attack_attempt(self):
-
-#         self.client.login(username='testuser', password='testpassword')
-
-#         # Try to make a POST request to a view that requires CSRF protection
-#         response = self.client.post(reverse('login'), data={'data': 'malicious_data'})
-
-#         # Ensure that the request is denied (status code 403)
-#         self.assertEqual(response.status_code, 403)        
+        self.assertEqual(response.status_code, 403) 
