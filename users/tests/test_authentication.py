@@ -1,10 +1,7 @@
-from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.test.client import Client
-from django.core import signing
-from django.middleware.csrf import get_token
+
 
 class TestViews(TestCase):
     def setUp(self):
@@ -149,41 +146,36 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, 'logout.html')
 
 
-# class TestSecurity(TestCase):
-#     def setUp(self):
-#         self.client = Client()
-#         self.user = User.objects.create_user(username='testuser', password='testpassword')
+class SessionFixationTest(TestCase):
+    def test_session_id_change_on_login(self):
+        # Create a user
+        user = User.objects.create_user(username='testuser', password='testpassword')
 
-#     def test_session_fixation_attack(self):
-#         # Log in the user and get their session ID
-#         self.client.login(username='testuser', password='testpassword')
-#         session_id = self.client.session.session_key
+        # Log in as the user and get the session ID
+        self.client.login(username='testuser', password='testpassword')
+        session_id_before = self.client.session.session_key
 
-#         # Log out the user
-#         self.client.logout()
+        # Log out to end the session
+        self.client.logout()
 
-#         # Generate a new session ID (simulating a potential session fixation attack)
-#         new_session_id = signing.dumps(session_id, salt='django.contrib.sessions.SessionStore')
-#         self.client.cookies[settings.SESSION_COOKIE_NAME] = new_session_id
-#         self.client.cookies[settings.SESSION_COOKIE_NAME].secure = True
+        # Log in again as the same user and get the new session ID
+        self.client.login(username='testuser', password='testpassword')
+        session_id_after = self.client.session.session_key
 
-#         # Try to access a protected page
-#         response = self.client.get(reverse('home'))
+        # Ensure that the session ID changes after login
+        self.assertNotEqual(session_id_before, session_id_after)
 
-#         # Assert that the user is not authenticated and is redirected to the login page
-#         self.assertFalse(response.context['user'].is_authenticated)
-#         self.assertRedirects(response, reverse('login'))
 
-#     def test_csrf_attack(self):
-#         # Log in the user
-#         self.client.login(username='testuser', password='testpassword')
+class CSRFAttackTest(TestCase):
+    def test_csrf_attack_attempt(self):
+        # Create a user
+        user = User.objects.create_user(username='testuser', password='testpassword')
 
-#         # Craft a CSRF attack request
-#         attack_url = reverse('login')  # Replace with the URL that performs a sensitive action
-#         attack_data = {
-#             'malicious_data': 'exploit'
-#         }
-#         response = self.client.post(attack_url, data=attack_data)
+        # Log in as the user
+        self.client.login(username='testuser', password='testpassword')
 
-#         # Assert that the CSRF attack is detected and the response status is 403 Forbidden
-#         self.assertEqual(response.status_code, 403)
+        # Try to make a POST request to a view that requires CSRF protection
+        response = self.client.post(reverse('protected_view'), data={'data': 'malicious_data'})
+
+        # Ensure that the request is denied (status code 403)
+        self.assertEqual(response.status_code, 403)        
