@@ -148,6 +148,9 @@ class TestViews(TestCase):
 
 class SessionFixationTest(TestCase):
     def test_session_id_change_on_login(self):
+        # Create a user
+        User.objects.create_user(username='testuser', password='testpassword')
+        #login user
         self.client.login(username='testuser', password='testpassword')
         session_id_before = self.client.session.session_key
 
