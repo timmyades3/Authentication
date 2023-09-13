@@ -175,7 +175,7 @@ class CSRFAttackTest(TestCase):
         self.client.login(username='testuser', password='testpassword')
 
         # Try to make a POST request to a view that requires CSRF protection
-        response = self.client.post(reverse('protected_view'), data={'data': 'malicious_data'})
+        response = self.client.post(reverse('login'), data={'data': 'malicious_data'})
 
         # Ensure that the request is denied (status code 403)
         self.assertEqual(response.status_code, 403)        

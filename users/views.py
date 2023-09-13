@@ -61,7 +61,9 @@ class Login(View):
       return redirect('home')
     return render(request, 'login.html')
   
-class Logout(View):
+class Logout(LoginRequiredMixin, View):
+  login_url = '/login/'
+  redirect_field_name = 'login'
   def get(self,request):
       logout(request)
       return render(request, 'logout.html')
