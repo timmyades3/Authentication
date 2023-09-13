@@ -1,5 +1,9 @@
 # Yetti-Technolgies-Backend-Assessment
 
+## View live
+ 
+ https://authentication-bhoe.onrender.com
+
 ## Local Development Setup
 
 Follow these steps to set up and run the Django app locally after cloning it from GitHub:
@@ -47,14 +51,8 @@ pip install -r requirements.txt
 
 ### 5. Configure Environment Variables
 
-Create a `.env` file in the project root and configure any necessary environment variables. You can usually find these settings in your project's `settings.py` file.
+change the `.envexample` file in the project root  to `.env`, it contains necessary environment variables. You can usually find these settings in your project's `settings.py` file.
 
-Example `.env` file:
-
-```env
-SECRET_KEY='django-insecure-ckyyk=^tikv6w0a9ljoohn96@l87o_v09&@9@d(f^15x%3s2z^'
-DEBUG=True
-```
 
 
 ### 6. Apply Database Migrations
@@ -102,9 +100,9 @@ The server should be accessible at `http://localhost:8000/` in your web browser.
 1. If you are logged in, you will be redirected to a hello world page where you can log out by clicking on the logout button by going to `http://localhost:8000`.
 2. Click the "Logout" button to log out from your user account.
 
-## Running Tests and Checking Code Coverage
+## Running Tests 
 
-To run tests and check code coverage, follow these steps:
+To run tests, follow these steps:
 
 ### 1. Run Tests
 
