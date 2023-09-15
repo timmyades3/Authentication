@@ -79,25 +79,25 @@ Start the Django development server:
 python manage.py runserver
 ```
 
-The server should be accessible at `http://localhost:8000/` in your web browser.
+The server should be accessible at `http://127.0.0.1:8000/` in your web browser.
 
 ## Basic Register, Login, and Logout
 
 ### Register
 
-1. Open your web browser and go to `http://localhost:8000/Register/` to access the register page.
+1. Open your web browser and go to `http://127.0.0.1:8000/Register/` to access the register page.
 2. Fill out the Register form with the required information, such as username, email, and password.
 3. Click the "Register" button to create a new user account.
 
 ### Login
 
-1. Open your web browser and go to `http://localhost:8000/login/` to access the login page.
+1. Open your web browser and go to `http://127.0.0.1:8000/login/` to access the login page.
 2. Enter your username and password in the login form.
 3. Click the "Login" button to log in to your user account.
 
 ### Logout
 
-1. If you are logged in, you will be redirected to a hello world page where you can log out by clicking on the logout button by going to `http://localhost:8000`.
+1. If you are logged in, you will be redirected to a hello world page where you can log out by clicking on the logout button or by going to `http://127.0.0.1:8000/`.
 2. Click the "Logout" button to log out from your user account.
 
 ## Running Tests 
