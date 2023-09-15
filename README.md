@@ -97,7 +97,7 @@ The server should be accessible at `http://127.0.0.1:8000/` in your web browser.
 
 ### Logout
 
-1. If you are logged in, you will be redirected to a hello world page where you can log out by clicking on the logout button or by going to `http://127.0.0.1:8000/`.
+1. If you are logged in, you will be redirected to a hello world page where you can log out by clicking on the logout button or by going to `http://127.0.0.1:8000/logout/`.
 2. Click the "Logout" button to log out from your user account.
 
 ## Running Tests 
